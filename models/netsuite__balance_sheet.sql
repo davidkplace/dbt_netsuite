@@ -112,7 +112,7 @@ balance_sheet as (
     on accounts.account_id = transactions_with_converted_amounts.account_id
 
   left join accounttypes
-    on accounts.accounttype = accounttypes.accounttype_id
+    on accounts.account_type = accounttypes.accounttype_id
 
   join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
@@ -173,7 +173,7 @@ balance_sheet as (
     on accounts.account_id = transactions_with_converted_amounts.account_id
 
   left join accounttypes
-    on accounts.accoutntype = accounttypes.accounttype_id
+    on accounts.account_type = accounttypes.accounttype_id
 
   join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
