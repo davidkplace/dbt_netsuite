@@ -25,6 +25,7 @@ vars:
     locations: "{{ ref('stg_netsuite__locations') }}"
     subsidiaries: "{{ ref('stg_netsuite__subsidiaries') }}"
     transaction_lines: "{{ ref('stg_netsuite__transaction_lines') }}"
+    transaction_accounting_lines: "{{ ref('stg_netsuite__transaction_accounting_lines')}}"
     transactions: "{{ ref('stg_netsuite__transactions') }}"
     vendor_types: "{{ ref('stg_netsuite__vendor_types') }}"
     vendors: "{{ ref('stg_netsuite__vendors') }}"
