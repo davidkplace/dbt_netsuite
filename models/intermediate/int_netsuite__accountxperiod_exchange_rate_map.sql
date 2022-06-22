@@ -29,7 +29,7 @@ period_exchange_rate_map as ( -- exchange rates used, by accounting period, to c
   from consolidated_exchange_rates
 
   where consolidated_exchange_rates.to_subsidiary_id in (select subsidiary_id from subsidiaries where parent_id is null)  -- constrait - only the primary subsidiary has no parent
-    and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where lower(is_primary) = 'yes')
+    --and consolidated_exchange_rates.accounting_book_id in (select accounting_book_id from accounting_books where lower(is_primary) = 'yes')
 ), 
 
 accountxperiod_exchange_rate_map as ( -- account table with exchange rate details by accounting period

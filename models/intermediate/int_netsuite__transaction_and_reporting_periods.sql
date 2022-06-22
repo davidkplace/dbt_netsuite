@@ -16,14 +16,14 @@ transaction_and_reporting_periods as (
 
   join accounting_periods as multiplier
     on multiplier.starting_at >= base.starting_at
-      and multiplier.quarter = base.quarter
-      and multiplier.year_0 = base.year_0
-      and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
+      and multiplier.is_quarter = base.is_quarter
+      --and multiplier.year_0 = base.year_0
+      --and multiplier.fiscal_calendar_id = base.fiscal_calendar_id
       and multiplier.starting_at <= {{ current_timestamp() }} 
 
-  where lower(base.quarter) = 'no'
-    and lower(base.year_0) = 'no'
-    and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
+  where lower(base.is_quarter) = 'no'
+    --and lower(base.year_0) = 'no'
+    --and base.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null) -- fiscal calendar will align with parent subsidiary's default calendar
 )
 
 select * 
