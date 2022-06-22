@@ -53,8 +53,8 @@ income_statement as (
         reporting_accounting_periods.name as accounting_period_name,
         reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
         reporting_accounting_periods.is_closed as is_accounting_period_closed,
-        accounts.name as account_name,
-        accounts.type_name as account_type_name,
+        accounts.account_name as account_name,
+        accounts.account_type as account_type_name,
         accounts.account_id as account_id,
         accounts.account_number,
         subsidiaries.subsidiary_id,
@@ -68,7 +68,7 @@ income_statement as (
 
         {% endif %}
 
-        {{ dbt_utils.concat(['accounts.account_number',"'-'", 'accounts.name']) }} as account_number_and_name,
+        {{ dbt_utils.concat(['accounts.account_number',"'-'", 'accounts.account_name']) }} as account_number_and_name,
         classes.full_name as class_full_name,
 
         --The below script allows for classes table pass through columns.
@@ -90,11 +90,11 @@ income_statement as (
 
         -converted_amount_using_transaction_accounting_period as converted_amount,
         transactions_with_converted_amounts.account_category as account_category,
-        case when lower(accounts.type_name) = 'income' then 1
-            when lower(accounts.type_name) = 'cost of goods sold' then 2
-            when lower(accounts.type_name) = 'expense' then 3
-            when lower(accounts.type_name) = 'other income' then 4
-            when lower(accounts.type_name) = 'other expense' then 5
+        case when lower(accounts.account_type) = 'income' then 1
+            when lower(accounts.account_type) = 'cost of goods sold' then 2
+            when lower(accounts.account_type) = 'expense' then 3
+            when lower(accounts.account_type) = 'other income' then 4
+            when lower(accounts.account_type) = 'other expense' then 5
             else null
             end as income_statement_sort_helper
 
