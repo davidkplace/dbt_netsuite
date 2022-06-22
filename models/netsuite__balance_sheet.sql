@@ -30,10 +30,9 @@ balance_sheet as (
   select
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
-    reporting_accounting_periods.full_name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
-    lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-    lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+    reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
+    reporting_accounting_periods.is_closed as is_accounting_period_closed,
     transactions_with_converted_amounts.account_category as account_category,
     case
       when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'

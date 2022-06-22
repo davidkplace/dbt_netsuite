@@ -50,10 +50,9 @@ income_statement as (
     select
         reporting_accounting_periods.accounting_period_id as accounting_period_id,
         reporting_accounting_periods.ending_at as accounting_period_ending,
-        reporting_accounting_periods.full_name as accounting_period_full_name,
         reporting_accounting_periods.name as accounting_period_name,
-        lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-        lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+        reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
+        reporting_accounting_periods.is_closed as is_accounting_period_closed,
         accounts.name as account_name,
         accounts.type_name as account_type_name,
         accounts.account_id as account_id,
@@ -136,8 +135,8 @@ income_statement as (
         and transaction_details.transaction_line_id = transactions_with_converted_amounts.transaction_line_id
     {% endif %}
 
-    where reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-        and transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
+    where --reporting_accounting_periods.fiscal_calendar_id  = (select fiscal_calendar_id from subsidiaries where parent_id is null)
+        /*and*/ transactions_with_converted_amounts.transaction_accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
         and transactions_with_converted_amounts.is_income_statement
 )
 
