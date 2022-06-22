@@ -14,6 +14,7 @@ vars:
     accounting_books: "{{ ref('stg_netsuite__accounting_books') }}"
     accounting_periods: "{{ ref('stg_netsuite__accounting_periods') }}"
     accounts: "{{ ref('stg_netsuite__accounts') }}"
+    accounttypes: "{{ ref('stg_netsuite__accounttypes') }}"
     classes: "{{ ref('stg_netsuite__classes') }}"
     consolidated_exchange_rates: "{{ ref('stg_netsuite__consolidated_exchange_rates') }}"
     currencies: "{{ ref('stg_netsuite__currencies') }}"
