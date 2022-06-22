@@ -79,7 +79,7 @@ income_statement as (
         {% endif %}
 
         locations.full_name as location_full_name,
-        departments.full_name as department_full_name,
+        departments.department_full_name as department_full_name,
 
         --The below script allows for departments table pass through columns.
         {% if var('departments_pass_through_columns') %}
