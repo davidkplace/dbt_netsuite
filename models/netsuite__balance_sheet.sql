@@ -86,7 +86,7 @@ balance_sheet as (
       when lower(accounttypes.type_name) = 'long term liability' then 11
       when lower(accounttypes.type_name) = 'deferred revenue' then 12
       when lower(accounttypes.type_name) = 'equity' then 13
-      when not accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 15
+      when (not accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 15
       when not accounttypes.is_balancesheet then 14
       else null
         end as balance_sheet_sort_helper
@@ -122,7 +122,7 @@ balance_sheet as (
 
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
     and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-    and (lower(accounts.is_balancesheet) = 't'
+    and (accounttypes.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
 
   union all
@@ -179,7 +179,7 @@ balance_sheet as (
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
     
   where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-    and (lower(accounts.is_balancesheet) = 't'
+    and (accounttypes.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
 )
 
