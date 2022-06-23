@@ -21,7 +21,7 @@ accounts as (
 accounttypes as (
   select *
   from {{ var('accounttypes') }}
-)
+),
 
 transactions_in_every_calculation_period_w_exchange_rates as (
   select
