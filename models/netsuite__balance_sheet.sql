@@ -40,21 +40,21 @@ balance_sheet as (
     reporting_accounting_periods.is_closed as is_accounting_period_closed,
     transactions_with_converted_amounts.account_category as account_category,
     case
-      when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
-      when lower(accounts.is_balancesheet) = 'f' then 'Retained Earnings'
+      when (accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+      when accounttypes.is_balancesheet then 'Retained Earnings'
       else accounts.name
         end as account_name,
     case
-      when (lower(accounts.is_balancesheet) = 'f' and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
-      when lower(accounts.is_balancesheet) = 'f' then 'Retained Earnings'
+      when (accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+      when accounttypes.is_balancesheet then 'Retained Earnings'
       else accounts.type_name
         end as account_type_name,
     case
-      when lower(accounts.is_balancesheet) = 'f' then null
+      when accounttypes.is_balancesheet then null
       else accounts.account_id
         end as account_id,
     case
-      when lower(accounts.is_balancesheet) = 'f' then null
+      when accounttypes.is_balancesheet then null
       else accounts.account_number
         end as account_number,
     
@@ -171,10 +171,10 @@ balance_sheet as (
 
   join accounts
     on accounts.account_id = transactions_with_converted_amounts.account_id
-
+  
   left join accounttypes
     on accounts.account_type = accounttypes.accounttype_id
-
+  
   join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
     
