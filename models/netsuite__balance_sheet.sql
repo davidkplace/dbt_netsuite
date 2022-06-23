@@ -120,9 +120,7 @@ balance_sheet as (
   join accounting_periods as transaction_accounting_periods 
     on transaction_accounting_periods.accounting_period_id = transactions_with_converted_amounts.transaction_accounting_period_id
 
-  where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-    and transaction_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-    and (accounttypes.is_balancesheet
+  where (accounttypes.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
 
   union all
@@ -178,8 +176,8 @@ balance_sheet as (
   join accounting_periods as reporting_accounting_periods 
     on reporting_accounting_periods.accounting_period_id = transactions_with_converted_amounts.reporting_accounting_period_id
     
-  where reporting_accounting_periods.fiscal_calendar_id = (select fiscal_calendar_id from subsidiaries where parent_id is null)
-    and (accounttypes.is_balancesheet
+  where 
+    (accounttypes.is_balancesheet
       or transactions_with_converted_amounts.is_income_statement)
 )
 
