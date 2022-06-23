@@ -40,21 +40,21 @@ balance_sheet as (
     reporting_accounting_periods.is_closed as is_accounting_period_closed,
     transactions_with_converted_amounts.account_category as account_category,
     case
-      when (accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
-      when accounttypes.is_balancesheet then 'Retained Earnings'
+      when ((not accounttypes.is_balancesheet) and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+      when not accounttypes.is_balancesheet then 'Retained Earnings'
       else accounts.account_name
         end as account_name,
     case
-      when (accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
-      when accounttypes.is_balancesheet then 'Retained Earnings'
+      when ((not accounttypes.is_balancesheet) and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
+      when not accounttypes.is_balancesheet then 'Retained Earnings'
       else accounttypes.type_name
         end as account_type_name,
     case
-      when accounttypes.is_balancesheet then null
+      when not accounttypes.is_balancesheet then null
       else accounts.account_id
         end as account_id,
     case
-      when accounttypes.is_balancesheet then null
+      when not accounttypes.is_balancesheet then null
       else accounts.account_number
         end as account_number,
     
@@ -66,8 +66,8 @@ balance_sheet as (
     {% endif %}
 
     case
-      when accounttypes.is_balancesheet or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
-      when not accounttypes.is_leftside then -converted_amount_using_reporting_month
+      when (not accounttypes.is_balancesheet) or lower(transactions_with_converted_amounts.account_category) = 'equity' then -converted_amount_using_transaction_accounting_period
+      when (not accounttypes.is_leftside) then -converted_amount_using_reporting_month
       when accounttypes.is_leftside then converted_amount_using_reporting_month
       else 0
         end as converted_amount,
@@ -86,7 +86,7 @@ balance_sheet as (
       when lower(accounttypes.type_name) = 'long term liability' then 11
       when lower(accounttypes.type_name) = 'deferred revenue' then 12
       when lower(accounttypes.type_name) = 'equity' then 13
-      when (not accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 15
+      when ((not accounttypes.is_balancesheet) and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 15
       when not accounttypes.is_balancesheet then 14
       else null
         end as balance_sheet_sort_helper
@@ -145,7 +145,7 @@ balance_sheet as (
     {% endif %}
 
     case
-      when lower(accounttypes.type_name) = 'equity' or transactions_with_converted_amounts.is_income_statement then transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period
+      when transactions_with_converted_amounts.account_category = 'equity' or transactions_with_converted_amounts.is_income_statement then transactions_with_converted_amounts.converted_amount_using_transaction_accounting_period
       else transactions_with_converted_amounts.converted_amount_using_reporting_month
         end as converted_amount,
     16 as balance_sheet_sort_helper
