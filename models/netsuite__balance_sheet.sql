@@ -38,6 +38,7 @@ balance_sheet as (
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
     reporting_accounting_periods.is_closed as is_accounting_period_closed,
+    transactions_with_converted_amounts.subsidiary_id,
     transactions_with_converted_amounts.account_category as account_category,
     case
       when ((not accounttypes.is_balancesheet) and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
@@ -131,6 +132,7 @@ balance_sheet as (
     reporting_accounting_periods.name as accounting_period_name,
     reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
     reporting_accounting_periods.is_closed as is_accounting_period_closed,
+    transactions_with_converted_amounts.subsidiary_id,
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
     'Cumulative Translation Adjustment' as account_type_name,
