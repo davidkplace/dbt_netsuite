@@ -146,8 +146,8 @@ balance_sheet as (
     {% endif %}
 
     case
-      when lower(accounttypes.type_name) = 'equity' or transactions_with_converted_amounts then converted_amount_using_transaction_accounting_period
-      else converted_amount_using_reporting_month
+      when lower(accounttypes.type_name) = 'equity' or transactions_with_converted_amounts.is_income_statement then transactions_with_converted_amountsconverted_amount_using_transaction_accounting_period
+      else transactions_with_converted_amountsconverted_amount_using_reporting_month
         end as converted_amount,
     16 as balance_sheet_sort_helper
 
