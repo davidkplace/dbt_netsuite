@@ -130,8 +130,8 @@ balance_sheet as (
     reporting_accounting_periods.ending_at as accounting_period_ending,
     reporting_accounting_periods.name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
-    lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
-    lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
+    reporting_accounting_periods.is_adjustment as is_accounting_period_adjustment,
+    reporting_accounting_periods.is_closed as is_accounting_period_closed,
     'Equity' as account_category,
     'Cumulative Translation Adjustment' as account_name,
     'Cumulative Translation Adjustment' as account_type_name,
@@ -146,7 +146,7 @@ balance_sheet as (
     {% endif %}
 
     case
-      when lower(account_category) = 'equity' or is_income_statement then converted_amount_using_transaction_accounting_period
+      when lower(accounttypes.type_name) = 'equity' or transactions_with_converted_amounts then converted_amount_using_transaction_accounting_period
       else converted_amount_using_reporting_month
         end as converted_amount,
     16 as balance_sheet_sort_helper
