@@ -42,7 +42,7 @@ balance_sheet as (
     case
       when (accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
       when accounttypes.is_balancesheet then 'Retained Earnings'
-      else accounts.name
+      else accounts.account_name
         end as account_name,
     case
       when (accounttypes.is_balancesheet and reporting_accounting_periods.year_id = transaction_accounting_periods.year_id) then 'Net Income'
