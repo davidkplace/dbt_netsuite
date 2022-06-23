@@ -91,10 +91,10 @@ income_statement as (
         -converted_amount_using_transaction_accounting_period as converted_amount,
         transactions_with_converted_amounts.account_category as account_category,
         case when lower(accounts.account_type) = 'income' then 1
-            when lower(accounts.account_type) = 'cost of goods sold' then 2
+            when lower(accounts.account_type) = 'cogs' then 2
             when lower(accounts.account_type) = 'expense' then 3
-            when lower(accounts.account_type) = 'other income' then 4
-            when lower(accounts.account_type) = 'other expense' then 5
+            when lower(accounts.account_type) = 'othincome' then 4
+            when lower(accounts.account_type) = 'othexpense' then 5
             else null
             end as income_statement_sort_helper
 
