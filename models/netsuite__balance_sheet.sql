@@ -128,7 +128,7 @@ balance_sheet as (
   select
     reporting_accounting_periods.accounting_period_id as accounting_period_id,
     reporting_accounting_periods.ending_at as accounting_period_ending,
-    reporting_accounting_periods.full_name as accounting_period_full_name,
+    reporting_accounting_periods.name as accounting_period_full_name,
     reporting_accounting_periods.name as accounting_period_name,
     lower(reporting_accounting_periods.is_adjustment) = 'yes' as is_accounting_period_adjustment,
     lower(reporting_accounting_periods.closed) = 'yes' as is_accounting_period_closed,
