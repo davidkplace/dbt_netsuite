@@ -28,7 +28,9 @@ transaction_lines_w_accounting_period as ( -- transaction line totals, by accoun
     on transaction_lines.transaction_id = transaction_accounting_lines.transaction_id
     and transaction_lines.transaction_line_id = transaction_accounting_lines.transaction_line_id
 
-  where lower(transactions.transaction_type) != 'revenue arrangement'
+  where 
+    1 = 1
+    --lower(transactions.transaction_type) != 'revenue arrangement' this needs to be adjusted to something like revarrang, but we dont use it so for now is ok
     and transaction_accounting_lines.is_posting
     --lower(non_posting_line) != 'yes'
 )

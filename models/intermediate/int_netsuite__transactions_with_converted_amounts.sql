@@ -18,6 +18,11 @@ accounts as (
     from {{ var('accounts') }}
 ),
 
+accounttypes as (
+  select *
+  from {{ var('accounttypes') }}
+)
+
 transactions_in_every_calculation_period_w_exchange_rates as (
   select
     transaction_lines_w_accounting_period.*,
@@ -46,21 +51,24 @@ transactions_with_converted_amounts as (
     unconverted_amount * exchange_rate_transaction_period as converted_amount_using_transaction_accounting_period,
     unconverted_amount * exchange_rate_reporting_period as converted_amount_using_reporting_month,
     case
-      when lower(accounts.account_type) in ('income','other income','expense','other expense','other income','cost of goods sold') then true
+      when lower(accounttypes.type_name) in ('income','other income','expense','other expense','other income','cost of goods sold') then true
       else false 
         end as is_income_statement,
     case
-      when lower(accounts.account_type) in ('accounts receivable', 'bank', 'deferred expense', 'fixed asset', 'other asset', 'other current asset', 'unbilled receivable') then 'Asset'
-      when lower(accounts.account_type) in ('cost of goods sold', 'expense', 'other expense') then 'Expense'
-      when lower(accounts.account_type) in ('income', 'other income') then 'Income'
-      when lower(accounts.account_type) in ('accounts payable', 'credit card', 'deferred revenue', 'long term liability', 'other current liability') then 'Liability'
-      when lower(accounts.account_type) in ('equity', 'retained earnings', 'net income') then 'Equity'
+      when lower(accounttypes.type_name) in ('accounts receivable', 'bank', 'deferred expense', 'fixed asset', 'other asset', 'other current asset', 'unbilled receivable') then 'Asset'
+      when lower(accounttypes.type_name) in ('cost of goods sold', 'expense', 'other expense') then 'Expense'
+      when lower(accounttypes.type_name) in ('income', 'other income') then 'Income'
+      when lower(accounttypes.type_name) in ('accounts payable', 'credit card', 'deferred revenue', 'long term liability', 'other current liability') then 'Liability'
+      when lower(accounttypes.type_name) in ('equity', 'retained earnings', 'net income') then 'Equity'
       else null 
         end as account_category
   from transactions_in_every_calculation_period_w_exchange_rates
 
   join accounts 
     on accounts.account_id = transactions_in_every_calculation_period_w_exchange_rates.account_id 
+
+  left join accounttypes 
+    on accounts.account_type = accounttypes.accounttype_id
 )
 
 select * 
